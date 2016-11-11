@@ -1,0 +1,65 @@
+﻿@*@model IEnumerable<LagerSystem1.Models.StockItem>*@
+@model LagerSystem1.ViewModels.ResultModel
+
+@{
+    ViewBag.Title = "Stock Stock";
+}
+<p>
+    
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+ <p>Search</p>
+
+<form method="get">
+    <input type="search" name="query"/>
+    <input type="submit" value="Search"/>
+</form>
+     
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortInput = "Name", query = Model.query, direction = Model.sortStates["Name"] })
+        </th>
+        <th>
+            @Html.ActionLink("Price", "Index", new { sortInput = "Price", query = Model.query, direction = Model.sortStates["Price"] })
+        </th>
+        <th>
+            @Html.ActionLink("Shelf", "Index", new { sortInput = "Shelf", query = Model.query, direction = Model.sortStates["Shelf"] })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.results[0].Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.results) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Shelf)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ItemId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ItemId })
+        </td>
+    </tr>
+}
+   
+</table>
+
+@if (Model.item != null)
+{
+    @Html.ActionLink("Undo", "Undo", new { input = Model.item.ToString() })
+}
