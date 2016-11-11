@@ -2,24 +2,29 @@
 @model LagerSystem1.ViewModels.ResultModel
 
 @{
-    ViewBag.Title = "Stock Stock";
-}
-<p>
     
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-
- <p>Search</p>
+    AjaxOptions options = new AjaxOptions
+    {
+        HttpMethod = "Post",
+        Confirm = "Delete item?"
+    };
+}
 
 <form method="get">
-    <input type="search" name="query"/>
-    <input type="submit" value="Search"/>
+    <div class="searchBox">
+        <input type="search" name="query" />
+        <input type="submit" value="Search" class="btn btn-default" />
+    </div>
 </form>
-     
 
+<div>
+    @using (Html.BeginForm("Create", "Nav", FormMethod.Get))
+    {
+        <input type="submit" class="btn btn-default delBtn" value="Create New" />
+    }
+</div>
 
-<table class="table">
+<table class="table" id="test">
     <tr>
         <th>
             @Html.ActionLink("Name", "Index", new { sortInput = "Name", query = Model.query, direction = Model.sortStates["Name"] })
@@ -36,8 +41,9 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.results) {
-    <tr>
+@foreach (var item in Model.results)
+{
+    <tr class = "elTablo">
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -51,8 +57,22 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ItemId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ItemId })
+            
+            @*Fick inte ajaxhelpers att funka riktigt som jag ville*@
+
+            @*@Ajax.ActionLink("Delete", "Delete", new {id = item.ItemId}, options)*@
+            @using (Html.BeginForm("Edit", "Nav", new {id = item.ItemId}, FormMethod.Get, new {@class = "formEditDelete"}))
+            {
+                <input type="submit" class="btn btn-default delBtn" value="Edit"/>
+            }
+            @*@using (Ajax.BeginForm("Delete", "Nav", new { id = item.ItemId }, options, new { @class = "formEditDelete"}))
+            {
+                <input type="submit" class="btn btn-default delBtn" value="Delete"/>
+            }*@
+            @using (Html.BeginForm("Delete", "Nav", new {id = item.ItemId}, FormMethod.Post, new {@class = "formEditDelete"}))
+            {
+                <input type="submit" class="btn btn-default delBtn" value="Delete"/>
+            }
         </td>
     </tr>
 }
@@ -61,5 +81,8 @@
 
 @if (Model.item != null)
 {
-    @Html.ActionLink("Undo", "Undo", new { input = Model.item.ToString() })
+    using (Html.BeginForm("Undo", "Nav", new { input = Model.item.ToString() }, FormMethod.Post))
+    {
+        <input type="submit" class="btn btn-default" value="Undo" />
+    }
 }

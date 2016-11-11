@@ -16,18 +16,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Test", "Index", "Nav", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Lagersystem", "Index", "Nav", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Nav")</li>
+                    <li>@Html.ActionLink("Hem", "Index", "Nav")</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        <img src="~/Graphics/logs.jpg" />
-
+    <div class="container body-content" id="body-content">
         @RenderBody()
         <hr/>
         <footer>
@@ -36,7 +34,9 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

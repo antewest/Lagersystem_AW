@@ -13,6 +13,7 @@ namespace LagerSystem1.Controllers
     {
         private StoreRepository _rep = new StoreRepository();
 
+        [HttpGet]
         public ActionResult Index(string query = null, string sortOrder = null, bool direction = true, string sortInput = null, string undo = null)
         {
             //create viewmodel
@@ -80,7 +81,7 @@ namespace LagerSystem1.Controllers
             return View(item);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(int id)
         {
             var model = _rep.GetItem(id);
@@ -93,7 +94,7 @@ namespace LagerSystem1.Controllers
             return RedirectToAction("Index", new {undo = model.ToString()});
         }
 
-        
+        [HttpPost]
         public ActionResult Undo(string input)
         {
             StockItem item = Converter(input);
